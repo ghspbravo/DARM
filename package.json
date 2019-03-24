@@ -1,0 +1,33 @@
+{
+  "name": "darm",
+  "version": "1.0.0",
+  "description": "Data retrieval labs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghspbravo/DARM.git"
+  },
+  "keywords": [
+    "data",
+    "retrieval",
+    "lab",
+    "labs",
+    "mirvoda",
+    "DARM",
+    "urfu",
+    "rtf",
+    "data",
+    "access",
+    "search",
+    "information"
+  ],
+  "author": "spBRAVO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ghspbravo/DARM/issues"
+  },
+  "homepage": "https://github.com/ghspbravo/DARM#readme"
+}
