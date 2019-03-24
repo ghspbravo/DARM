@@ -1,0 +1,41 @@
+.search-results-table {
+	table-layout: fixed;
+	overflow-x: auto;
+	width: 100%;
+}
+
+.search-results-table tr {
+	padding: 10px 0px;
+	display: flex;
+	border-bottom: 1px solid black;
+	position: relative;
+}
+
+.search-results-table td {
+	padding: 0 5px;
+}
+
+.search-results-table thead {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.search-results-table tbody tr:nth-child(even) {
+	background-color: lightgray;
+}
+
+.search-results-table tr td:nth-child(1) {
+	width: 15%;
+}
+
+.search-results-table thead tr td:nth-child(2) {
+	text-align: center;
+}
+
+.search-results-table tr td:nth-child(2) {
+	width: 65%;
+}
+
+.search-results-table tr td:nth-child(3) {
+	width: 20%;
+}
