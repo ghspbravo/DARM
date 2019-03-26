@@ -79,13 +79,34 @@ const dbSearch = (str, type) => {
 }
 
 /**
+ * Поиск по Документам Lucene
+ * 
+ * @param {String} str - строка для поиска
+ * @param {String} type - опции поиска
+ */
+const luceneSearch = (str, type) => {
+	fetch('/search/lucene', {
+		method: 'post',
+		body: JSON.stringify({
+			query: str,
+			type: type
+		}),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	}).then(data => data.json())
+		.then(data => insertListIntoDom(data.movies))
+		.catch(e => console.error(e))
+}
+
+/**
  * Навешать обработчики на форму
  */
 const attachSearchEvents = () => {
 	const searchForm = document.getElementsByClassName(CLASSNAME_SEARCH_FORM)[0]
 
 	// Элементы фильтра также запускают поиск
-	Object.values(searchForm.querySelectorAll('input[type=radio]')).forEach(
+	Object.values(searchForm.querySelectorAll('input[type=radio], input[type=checkbox]')).forEach(
 		option => option.addEventListener('click', () => searchForm.dispatchEvent(
 			new Event('submit')
 		))
@@ -96,7 +117,8 @@ const attachSearchEvents = () => {
 
 		let formElements = searchForm.elements,
 			query = formElements[0].value,
-			type = searchForm.querySelectorAll('input[type=radio]')
+			type = searchForm.querySelectorAll('input[type=radio]'),
+			useSearchEngine = searchForm.querySelector('input[type=checkbox]').checked
 
 		if (query.length < 3) return
 
@@ -104,7 +126,9 @@ const attachSearchEvents = () => {
 				.filter(option => option.checked)
 				.map(option => option.value)[0]
 
-		dbSearch(query, type)
+		useSearchEngine
+		? luceneSearch(query, type)
+		: dbSearch(query, type)
 	})
 }
 

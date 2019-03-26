@@ -1,24 +1,53 @@
 var express = require('express');
 var router = express.Router();
 var pgp = require('pg-promise')();
+var SolrNode = require('solr-node');
 
 /* GET list. */
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
 
-	var db = pgp('postgres://developer:rtfP@ssw0rd@84.201.147.162:5432/darm')
-	
-  try {
+
+	try {
+		var db = pgp('postgres://developer:rtfP@ssw0rd@84.201.147.162:5432/darm')
+
 		console.log(buildQuery(req.body.type, req.body.query)) //log query
-    db.any(buildQuery(req.body.type, req.body.query), [req.body.query]).then(movies => {
+		db.any(buildQuery(req.body.type, req.body.query), [req.body.query]).then(movies => {
 			console.log(movies) //log result
-      res.json({ movies: movies });
-    });
-  } 
-  catch(e) {
-    console.error(e)
+			res.json({ movies: movies });
+		});
+	}
+	catch (e) {
+		console.error(e)
 	}
 	finally {
 		pgp.end()
+	}
+});
+
+router.post('/lucene', function (req, res, next) {
+
+	try {
+
+		var client = new SolrNode({
+			host: '127.0.0.1',
+			port: '8983',
+			core: 'darm',
+			protocol: 'http'
+		});
+
+		client.search(client.query().q({ name: req.body.query }), function (err, result) {
+			if (err) {
+				console.log(err);
+				return;
+			}
+			console.log('Response:', result.response);
+
+			res.json({ movies: result.response.docs });
+		});
+
+	}
+	catch (e) {
+		console.error(e)
 	}
 });
 
@@ -40,34 +69,34 @@ const buildQuery = (type, query) => {
 			OR  name LIKE '$1:value %'
 			OR name LIKE '% $1:value'
 			OR name = $1
-			LIMIT 100`
-			
+			LIMIT 10`
+
 		case 'searchAllWordsInTitle':
 			return `
 			SELECT * 
 			FROM movies 
 			WHERE name = $1 
-			LIMIT 100`
+			LIMIT 10`
 
 		case 'searchPartTitle':
-		return `
+			return `
 		SELECT * 
 		FROM movies 
 		WHERE name LIKE '%$1:value%'
-		LIMIT 100`
+		LIMIT 10`
 
 		case 'searchYearAndPartTitle':
-		return parseInt(query)
-		? `
+			return parseInt(query)
+				? `
 		SELECT * 
 		FROM movies 
 		WHERE year = $1
-		LIMIT 100`
-		: `
+		LIMIT 10`
+				: `
 		SELECT * 
 		FROM movies 
 		WHERE name LIKE '%$1:value%'
-		LIMIT 100`
+		LIMIT 10`
 
 		default:
 			break;
