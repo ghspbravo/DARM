@@ -40,11 +40,35 @@
         <div class="card card-body">
 
           <div class="row">
+
             <div class="col-6">
               <div class="form-check form-check-radio">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="searchFilters" value="searchAnyWordsInTitle"
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchYearAndPartTitle"
                     checked>
+                  Поиск по году и названию (части названия)
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchPartTitle">
+                  Поиск по частичным словам из названия фильма
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+
+            </div>
+
+            <div class="col-6">
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchAnyWordsInTitle">
                   Поиск по одному из слов названия фильма
                   <span class="form-check-sign">
                     <span class="check"></span>
@@ -63,27 +87,6 @@
               </div>
             </div>
 
-            <div class="col-6">
-              <div class="form-check form-check-radio">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="searchFilters" value="searchPartTitle">
-                  Поиск по частичным словам из названия фильма
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-
-              <div class="form-check form-check-radio">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="searchFilters" value="searchYearAndPartTitle">
-                  Поиск по году и названию (части названия)
-                  <span class="form-check-sign">
-                    <span class="check"></span>
-                  </span>
-                </label>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -97,7 +100,7 @@
       </button>
     </div>
 
-    <div class="list-entry mt-5">
+    <div class="list-entry my-5">
       <div class="row justify-content-center no-gutters">
         <img src="/images/loader.svg" alt="loader">
       </div>
