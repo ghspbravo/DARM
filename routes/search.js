@@ -33,16 +33,36 @@ module.exports = router;
 const buildQuery = (type) => {
 	switch (type) {
 		case 'searchAnyWordsInTitle':
-			return "SELECT * FROM movies WHERE name LIKE '%$1:value%' LIMIT 100"
+			return `
+			SELECT * 
+			FROM movies 
+			WHERE name LIKE '% $1:value %'
+			OR  name LIKE '$1:value %'
+			OR name LIKE '% $1:value'
+			OR name = $1
+			LIMIT 100`
 			
 		case 'searchAllWordsInTitle':
-			return "SELECT * FROM movies WHERE name = $1 LIMIT 100"
+			return `
+			SELECT * 
+			FROM movies 
+			WHERE name = $1 
+			LIMIT 100`
 
 		case 'searchPartTitle':
-			return "SELECT * FROM movies WHERE name = $1 LIMIT 100"
+		return `
+		SELECT * 
+		FROM movies 
+		WHERE name LIKE '%$1:value%'
+		LIMIT 100`
 
 		case 'searchYearAndPartTitle':
-			return "SELECT * FROM movies WHERE year = $1 LIMIT 100"
+		return `
+		SELECT * 
+		FROM movies 
+		WHERE name LIKE '%$1:value%'
+		OR year = $1
+		LIMIT 100`
 
 		default:
 			break;
