@@ -8,8 +8,7 @@ router.post('/', function(req, res, next) {
 	var db = pgp('postgres://developer:rtfP@ssw0rd@84.201.147.162:5432/darm')
 	
   try {
-    // db.any(buildQuery(req.body.query, req.body.type), [true]).then(movies => {
-			console.log(buildQuery(req.body.type))
+		console.log(buildQuery(req.body.type))
     db.any(buildQuery(req.body.type), [req.body.query]).then(movies => {
 			console.log(movies)
       res.json({ movies: movies });
