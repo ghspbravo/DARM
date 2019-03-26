@@ -1,14 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-	document.querySelector('.list-entry') && loadMoviesList()
+	document.getElementsByClassName(CLASSNAME_LIST_ENTRY) && loadMoviesList()
 
-	document.querySelector('.search-form') && attachEvents()
+	document.getElementsByClassName(CLASSNAME_SEARCH_FORM) && attachSearchEvents()
+
+	document.getElementsByClassName(CLASSNAME_RESTORE_CONTROLS) && attachClearEvents()
 })
+
+/**@const {String} Название класса для входной точки элементов таблицы */
+const CLASSNAME_LIST_ENTRY = "list-entry"
+/**@const {String} Название класса для формы поиска */
+const CLASSNAME_SEARCH_FORM = "search-form"
+/**@const {String} Название класса для обработчиков сброса */
+const CLASSNAME_RESTORE_CONTROLS = "js-restore-table"
 
 /**
  * Вставляет результаты выборки в разметку
  * 
- * @param movies - список фильмов
+ * @param {object} movies - список фильмов
  */
 const insertListIntoDom = (movies) => {
 	let wrapper = document.createElement('table')
@@ -23,11 +32,11 @@ const insertListIntoDom = (movies) => {
 	</thead>
 	<tbody></tbody>`
 
-	const entryNode = document.querySelector('.list-entry')
+	const entryNode = document.getElementsByClassName(CLASSNAME_LIST_ENTRY)[0]
 	entryNode.innerHTML = ''
 	entryNode.appendChild(wrapper)
 
-	const entryRecordsNode = document.querySelector('.list-entry tbody')
+	const entryRecordsNode = document.getElementsByClassName(CLASSNAME_LIST_ENTRY)[0].querySelector('tbody')
 	movies.forEach(movie => {
 		let recordsRow = document.createElement('tr')
 		recordsRow.innerHTML = `
@@ -51,12 +60,10 @@ const loadMoviesList = () => {
 /**
  * Поиск по БД
  * 
- * @param str - строка для поиска
- * 
- * @param type - опции поиска
+ * @param {String} str - строка для поиска
+ * @param {String} type - опции поиска
  */
 const dbSearch = (str, type) => {
-	console.log('init search')
 	fetch('/search', {
 		method: 'post',
 		body: JSON.stringify({
@@ -74,8 +81,8 @@ const dbSearch = (str, type) => {
 /**
  * Навешать обработчики на форму
  */
-const attachEvents = () => {
-	const searchForm = document.querySelector('.search-form')
+const attachSearchEvents = () => {
+	const searchForm = document.getElementsByClassName(CLASSNAME_SEARCH_FORM)[0]
 
 	searchForm.addEventListener('submit', e => {
 		e.preventDefault()
@@ -92,4 +99,15 @@ const attachEvents = () => {
 
 		dbSearch(query, type)
 	})
+}
+
+/**
+ * Навешать обработчики на элементы сброса
+ */
+const attachClearEvents = () => {
+	const restoreNodes = document.getElementsByClassName(CLASSNAME_RESTORE_CONTROLS)
+
+	Object.values(restoreNodes).forEach(
+		/**@param {Element} node */
+		node => node.addEventListener('click', () => loadMoviesList()))
 }
