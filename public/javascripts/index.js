@@ -120,7 +120,10 @@ const attachSearchEvents = () => {
 			type = searchForm.querySelectorAll('input[type=radio]'),
 			useSearchEngine = searchForm.querySelector('input[type=checkbox]').checked
 
-		if (query.length < 3) return
+		if (query.length < 3) {
+			if (query.length === 0) loadMoviesList()
+			return
+		}
 
 			type = Object.values(type)
 				.filter(option => option.checked)
