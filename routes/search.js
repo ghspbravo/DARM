@@ -35,7 +35,7 @@ router.post('/lucene', function (req, res, next) {
 			protocol: 'http'
 		});
 
-		client.search(client.query().q({ name: req.body.query }), function (err, result) {
+		client.search(buildLuceneQuery(req.body.type, req.body.query, client), function (err, result) {
 			if (err) {
 				console.log(err);
 				return;
@@ -52,6 +52,32 @@ router.post('/lucene', function (req, res, next) {
 });
 
 module.exports = router;
+
+/**
+ * Оформить запрос к Lucene
+ * @param {String} type - дополнительные опции поиска
+ * @param {String} query - поисковый запрос
+ */
+const buildLuceneQuery = (type, query, client) => {
+	switch (type) {
+		case 'searchAnyWordsInTitle':
+			return client.query().q(`name:${query}`)
+
+		case 'searchAllWordsInTitle':
+			return client.query().q(`name:"${query}"`)
+
+		case 'searchPartTitle':
+			return client.query().q(`name:*${query}*`)
+
+		case 'searchYearAndPartTitle':
+			return parseInt(query)
+			? client.query().q(`year:${query}`)
+			: client.query().q(`name:*${query}*`)
+	
+		default:
+			break;
+	}
+}
 
 /**
  * Оформить запрос к БД
