@@ -49,7 +49,7 @@ const insertListIntoDom = (movies) => {
 }
 
 /**
- * Загрузить все фильмы
+ * Загрузить все фильмы и вставить в документ
  */
 const loadMoviesList = () => {
 	fetch('/list').then(data  => data.json())
@@ -116,5 +116,22 @@ const attachClearEvents = () => {
 
 	Object.values(restoreNodes).forEach(
 		/**@param {Element} node */
-		node => node.addEventListener('click', () => loadMoviesList()))
+		node => node.addEventListener('click', () => clearSearch()))
+}
+
+/**
+ * Очистка формы поиска и вывод исходного списка элементов
+ * 
+ */
+const clearSearch = () => {
+	const searchForm = document.getElementsByClassName(CLASSNAME_SEARCH_FORM)[0],
+		textInputs = searchForm.querySelectorAll('input[type=text]'),
+		radioInputs = searchForm.querySelectorAll('input[type=radio]')
+	// clear text inputs
+	textInputs.forEach(inputNode => inputNode.value="")
+	// check first radio
+	radioInputs.forEach(radioInput => radioInput.checked = false)
+	radioInputs[0].checked = true
+	// Load initial list
+	loadMoviesList()
 }
