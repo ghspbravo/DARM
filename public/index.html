@@ -1,29 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Search engine</title>
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="/stylesheets/material-kit.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
+
 <body>
   <div class="container">
     <h1>Search engine name</h1>
-    <form>
+    <form class="search-form">
       <div class="form-row">
         <input type="text" class="form-control col" placeholder="Query">
         <button type="submit" class="btn btn-primary ml-5">
-          <i class="material-icons">search</i>  Search
+          <i class="material-icons">search</i> Search
         </button>
       </div>
+
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseFilters"
+        aria-expanded="false" aria-controls="collapseFilters">
+        Параметры поиска
+      </button>
+
+      <div class="collapse" id="collapseFilters">
+        <div class="card card-body">
+          
+          <div class="row">
+            <div class="col-6">
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchAnyWordsInTitle" checked>
+                  Поиск по одному из слов названия фильма
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+    
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchAllWordsInTitle">
+                  Поиск по всем словам названия
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="col-6">
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchPartTitle">
+                  Поиск по частичным словам из названия фильма
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+    
+              <div class="form-check form-check-radio">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="searchFilters" value="searchYearAndPartTitle">
+                  Поиск по году и названию (части названия)
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
     </form>
+
+    <div class="list-entry mt-5">
+      <div class="row justify-content-center no-gutters">
+        <img src="/images/loader.svg" alt="loader">
+      </div>
+    </div>
   </div>
+
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="/javascripts/bootstrap.bundle.min.js"></script>
+  <script src="/javascripts/index.js"></script>
 </body>
 
 </html>

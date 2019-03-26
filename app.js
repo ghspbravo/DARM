@@ -6,6 +6,7 @@ var engines = require('consolidate');
 
 var indexRouter = require('./routes/index');
 var searchRouter = require('./routes/search');
+var listRouter = require('./routes/list');
 
 var app = express();
 
@@ -18,6 +19,7 @@ app.engine('html', engines.mustache);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
+app.use('/list', listRouter);
 app.use('/search', searchRouter);
 
 module.exports = app;
