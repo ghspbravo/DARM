@@ -8,9 +8,9 @@ router.post('/', function(req, res, next) {
 	var db = pgp('postgres://developer:rtfP@ssw0rd@84.201.147.162:5432/darm')
 	
   try {
-		console.log(buildQuery(req.body.type))
-    db.any(buildQuery(req.body.type), [req.body.query]).then(movies => {
-			console.log(movies)
+		console.log(buildQuery(req.body.type, req.body.query)) //log query
+    db.any(buildQuery(req.body.type, req.body.query), [req.body.query]).then(movies => {
+			console.log(movies) //log result
       res.json({ movies: movies });
     });
   } 
@@ -27,9 +27,10 @@ module.exports = router;
 /**
  * Оформить запрос к БД
  * 
- * @param type - дополнительные опции поиска
+ * @param {String} type - дополнительные опции поиска
+ * @param {String} query - поисковый запрос
  */
-const buildQuery = (type) => {
+const buildQuery = (type, query) => {
 	switch (type) {
 		case 'searchAnyWordsInTitle':
 			return `
@@ -56,11 +57,16 @@ const buildQuery = (type) => {
 		LIMIT 100`
 
 		case 'searchYearAndPartTitle':
-		return `
+		return parseInt(query)
+		? `
+		SELECT * 
+		FROM movies 
+		WHERE year = $1
+		LIMIT 100`
+		: `
 		SELECT * 
 		FROM movies 
 		WHERE name LIKE '%$1:value%'
-		OR year = $1
 		LIMIT 100`
 
 		default:
