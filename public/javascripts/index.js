@@ -84,6 +84,13 @@ const dbSearch = (str, type) => {
 const attachSearchEvents = () => {
 	const searchForm = document.getElementsByClassName(CLASSNAME_SEARCH_FORM)[0]
 
+	// Элементы фильтра также запускают поиск
+	Object.values(searchForm.querySelectorAll('input[type=radio]')).forEach(
+		option => option.addEventListener('click', () => searchForm.dispatchEvent(
+			new Event('submit')
+		))
+	)
+
 	searchForm.addEventListener('submit', e => {
 		e.preventDefault()
 
