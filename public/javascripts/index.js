@@ -41,7 +41,7 @@ const insertListIntoDom = (movies) => {
 		let recordsRow = document.createElement('tr')
 		recordsRow.innerHTML = `
 			<td>${movie.id}</td>
-			<td>${movie.name}</td>
+			<td>${movie.name}  <a href="${buildFilmLink(movie.id)}" target="_blank"><i style="font-size: 14px" class="material-icons">open_in_new</i></a></td>
 			<td>${movie.year}</td>`
 		
 			entryRecordsNode.appendChild(recordsRow)
@@ -121,7 +121,6 @@ const attachClearEvents = () => {
 
 /**
  * Очистка формы поиска и вывод исходного списка элементов
- * 
  */
 const clearSearch = () => {
 	const searchForm = document.getElementsByClassName(CLASSNAME_SEARCH_FORM)[0],
@@ -134,4 +133,16 @@ const clearSearch = () => {
 	radioInputs[0].checked = true
 	// Load initial list
 	loadMoviesList()
+}
+
+/**
+ * Преобразовать ID в ссылку на фильм IMDB
+ * @param {Integer} id - ID фильма из библиотеки IMDB
+ * @returns {String} href to IMDB film
+ */
+const buildFilmLink = id => {
+	let formatId = id.toString();
+	while (formatId.length < 7) formatId = "0" + formatId
+	
+	return `https://www.imdb.com/title/tt${formatId}/`
 }
