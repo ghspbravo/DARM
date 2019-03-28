@@ -64,7 +64,7 @@ const buildLuceneQuery = (type, query, client) => {
 			return client.query().q(`name:${query}`)
 
 		case 'searchAllWordsInTitle':
-			return client.query().q(`name:"${query}"`)
+			return client.query().q(`name:\"${query}\"`)
 
 		case 'searchPartTitle':
 			return client.query().q(`name:*${query}*`)
@@ -91,9 +91,9 @@ const buildQuery = (type, query) => {
 			return `
 			SELECT * 
 			FROM movies 
-			WHERE name LIKE '% $1:value %'
-			OR  name LIKE '$1:value %'
-			OR name LIKE '% $1:value'
+			WHERE name ILIKE '% $1:value %'
+			OR  name ILIKE '$1:value %'
+			OR name ILIKE '% $1:value'
 			OR name = $1
 			LIMIT 10`
 
@@ -108,7 +108,7 @@ const buildQuery = (type, query) => {
 			return `
 		SELECT * 
 		FROM movies 
-		WHERE name LIKE '%$1:value%'
+		WHERE name ILIKE '%$1:value%'
 		LIMIT 10`
 
 		case 'searchYearAndPartTitle':
@@ -121,7 +121,7 @@ const buildQuery = (type, query) => {
 				: `
 		SELECT * 
 		FROM movies 
-		WHERE name LIKE '%$1:value%'
+		WHERE name ILIKE '%$1:value%'
 		LIMIT 10`
 
 		default:
