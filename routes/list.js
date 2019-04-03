@@ -5,9 +5,9 @@ var pgp = require('pg-promise')();
 /* GET list. */
 router.get('/', function(req, res, next) {
 
-  var db = pgp('postgres://developer:rtfP@ssw0rd@84.201.147.162:5432/darm')
-
   try {
+    var db = pgp('postgres://developer:rtfP@ssw0rd@db.mirvoda.com:5454/darm')
+
     db.any('SELECT * FROM movies LIMIT 100', [true]).then(movies => {
       res.json({ movies: movies });
     });
